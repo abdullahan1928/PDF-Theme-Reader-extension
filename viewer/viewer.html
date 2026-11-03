@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PDF</title>
+  <link rel="stylesheet" href="viewer.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+    <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9M20 4v5h-5"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></symbol>
+    <symbol id="i-theme" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17a8.5 8.5 0 0 0 0-17z" fill="currentColor"/></symbol>
+    <symbol id="i-more" viewBox="0 0 24 24"><circle cx="12" cy="5.5" r="1.3" fill="currentColor"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/><circle cx="12" cy="18.5" r="1.3" fill="currentColor"/></symbol>
+    <symbol id="i-note" viewBox="0 0 24 24"><path d="M5 5h14v11h-8l-4 3.5V16H5z" fill="currentColor"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  </defs>
+</svg>
+
+<header id="toolbar">
+  <div class="tb-side">
+    <button class="icon" id="sidebarToggle" title="Sidebar (F4)" aria-label="Toggle sidebar"><svg><use href="#i-menu"/></svg></button>
+  </div>
+
+  <div class="tb-center">
+    <div class="ctl">
+      <button class="icon" id="prev" title="Previous page" aria-label="Previous page"><svg><use href="#i-up"/></svg></button>
+      <input id="pageNumber" value="" inputmode="numeric" aria-label="Page number" autocomplete="off">
+      <span class="of">/ <span id="pageCount">–</span></span>
+      <button class="icon" id="next" title="Next page" aria-label="Next page"><svg><use href="#i-down"/></svg></button>
+    </div>
+
+    <div class="ctl">
+      <button class="icon" id="zoomOut" title="Zoom out (Ctrl+−)" aria-label="Zoom out"><svg><use href="#i-minus"/></svg></button>
+      <select id="zoomSelect" aria-label="Zoom">
+        <option value="custom" id="zoomCustom" hidden>100%</option>
+        <option value="auto">Automatic</option>
+        <option value="actual">Actual size</option>
+        <option value="page">Fit page</option>
+        <option value="width">Fit width</option>
+        <option disabled>──────</option>
+        <option value="50">50%</option>
+        <option value="75">75%</option>
+        <option value="100">100%</option>
+        <option value="125">125%</option>
+        <option value="150">150%</option>
+        <option value="200">200%</option>
+        <option value="300">300%</option>
+        <option value="400">400%</option>
+      </select>
+      <button class="icon" id="zoomIn" title="Zoom in (Ctrl++)" aria-label="Zoom in"><svg><use href="#i-plus"/></svg></button>
+    </div>
+
+    <select id="spreadSelect" class="flat wide-only" aria-label="Page layout" title="Page layout">
+      <option value="none">Single page</option>
+      <option value="odd">Two pages (1–2, 3–4…)</option>
+      <option value="even">Two pages (cover first)</option>
+    </select>
+  </div>
+
+  <div class="tb-side right">
+    <button class="icon" id="rotate" title="Rotate clockwise" aria-label="Rotate"><svg><use href="#i-rotate"/></svg></button>
+    <button class="icon" id="themeButton" title="Reading theme" aria-label="Reading theme"><svg><use href="#i-theme"/></svg></button>
+    <button class="icon" id="moreButton" title="More" aria-label="More"><svg><use href="#i-more"/></svg></button>
+    <button class="icon" id="searchButton" title="Find (Ctrl+F)" aria-label="Find in document"><svg><use href="#i-search"/></svg></button>
+  </div>
+</header>
+
+<div id="findbar" hidden>
+  <input id="findInput" placeholder="Find in document" autocomplete="off" spellcheck="false" aria-label="Find in document">
+  <span id="findStatus"></span>
+  <button class="icon sm toggle" id="findCase" title="Match case" aria-label="Match case" aria-pressed="false">Aa</button>
+  <button class="icon sm" id="findPrev" title="Previous match (Shift+Enter)" aria-label="Previous match"><svg><use href="#i-up"/></svg></button>
+  <button class="icon sm" id="findNext" title="Next match (Enter)" aria-label="Next match"><svg><use href="#i-down"/></svg></button>
+  <button class="icon sm" id="findClose" title="Close (Esc)" aria-label="Close search"><svg><use href="#i-close"/></svg></button>
+</div>
+
+<aside id="sidebar" hidden aria-label="Sidebar">
+  <div class="side-head">
+    <div class="side-tabs" role="tablist">
+      <button class="side-tab active" data-panel="outlinePanel" role="tab">Contents</button>
+      <button class="side-tab" data-panel="thumbPanel" role="tab">Pages</button>
+      <button class="side-tab" data-panel="notesPanel" role="tab">Notes</button>
+      <button class="side-tab" data-panel="infoPanel" role="tab">Info</button>
+    </div>
+    <button class="icon" id="sidebarClose" title="Close sidebar" aria-label="Close sidebar"><svg><use href="#i-close"/></svg></button>
+  </div>
+  <div id="outlinePanel" class="side-panel"></div>
+  <div id="thumbPanel" class="side-panel" hidden></div>
+  <div id="notesPanel" class="side-panel" hidden></div>
+  <div id="infoPanel" class="side-panel" hidden></div>
+</aside>
+
+<div id="banner" hidden></div><button id="bannerClose" class="icon sm" hidden aria-label="Dismiss"><svg><use href="#i-close"/></svg></button>
+
+<main id="stage" tabindex="-1">
+  <div id="pages"></div>
+</main>
+
+<div id="loading"><div class="spinner"></div><span id="loadingText">Opening PDF…</span></div>
+
+<div id="welcome" hidden>
+  <h1>PDF Theme Reader</h1>
+  <p>Drop a PDF here, or</p>
+  <button id="openFile" class="primary">Open a file</button>
+  <p class="dim">Ctrl+O also works.</p>
+</div>
+
+<div id="moreMenu" class="menu" hidden>
+  <button id="mOpen">Open file…<kbd>Ctrl+O</kbd></button>
+  <button id="mDownload">Download<kbd>Ctrl+S</kbd></button>
+  <button id="mPrint">Print<kbd>Ctrl+P</kbd></button>
+  <hr>
+  <button id="mFullscreen">Fullscreen</button>
+  <button id="mFirst">Go to first page<kbd>Home</kbd></button>
+  <button id="mLast">Go to last page<kbd>End</kbd></button>
+  <hr>
+  <button id="mInfo">Document properties</button>
+  <button id="mDbl">Translate on double-click<kbd>On</kbd></button>
+  <button id="mReset">Reset view</button>
+  <button id="mKeys">Keyboard shortcuts</button>
+</div>
+
+<div id="themePanel" class="popover" hidden>
+  <div class="pop-head"><strong>Reading theme</strong><button class="icon sm" id="closeTheme" aria-label="Close"><svg><use href="#i-close"/></svg></button></div>
+  <div id="themeList"></div>
+  <label class="row">Brightness <input id="brightness" type="range" min="50" max="130" value="100"></label>
+  <label class="row">Contrast <input id="contrast" type="range" min="50" max="130" value="100"></label>
+  <label class="row check"><input id="preserveImages" type="checkbox"> Keep images in original colors</label>
+  <button class="link" id="themeReset">Reset brightness and contrast</button>
+</div>
+
+<dialog id="keysDialog">
+  <h2>Keyboard shortcuts</h2>
+  <table>
+    <tr><td>Find in document</td><td><kbd>Ctrl</kbd> <kbd>F</kbd> (press again to close)</td></tr>
+    <tr><td>Next / previous match</td><td><kbd>Enter</kbd> / <kbd>Shift</kbd> <kbd>Enter</kbd>, <kbd>F3</kbd></td></tr>
+    <tr><td>Zoom in / out / 100%</td><td><kbd>Ctrl</kbd> <kbd>+</kbd> / <kbd>−</kbd> / <kbd>0</kbd></td></tr>
+    <tr><td>Zoom with mouse or touchpad</td><td><kbd>Ctrl</kbd> + wheel, pinch</td></tr>
+    <tr><td>Next / previous page</td><td><kbd>→</kbd> <kbd>←</kbd>, <kbd>Space</kbd> <kbd>Shift</kbd>+<kbd>Space</kbd></td></tr>
+    <tr><td>First / last page</td><td><kbd>Home</kbd> / <kbd>End</kbd></td></tr>
+    <tr><td>Sidebar</td><td><kbd>F4</kbd></td></tr>
+    <tr><td>Highlight, comment, translate</td><td>Select text, then pick from the bar; double-click a word to translate</td></tr>
+    <tr><td>Rotate</td><td><kbd>R</kbd></td></tr>
+    <tr><td>Open / download / print</td><td><kbd>Ctrl</kbd> <kbd>O</kbd> / <kbd>S</kbd> / <kbd>P</kbd></td></tr>
+  </table>
+  <form method="dialog"><button class="primary">Close</button></form>
+</dialog>
+
+<div id="selBar" class="floatbar" hidden>
+  <span id="selColors" class="dots"></span>
+  <span class="sep"></span>
+  <button data-act="unhighlight" hidden>Remove highlight</button>
+  <button data-act="comment">Comment</button>
+  <button data-act="translate">Translate</button>
+  <button data-act="listen">Listen</button>
+  <button data-act="copy">Copy</button>
+</div>
+
+<div id="notePop" class="floatpop" hidden>
+  <div id="noteColors" class="dots"></div>
+  <div id="noteQuote" class="np-quote"></div>
+  <textarea id="noteText" rows="4" placeholder="Add a comment…" spellcheck="true"></textarea>
+  <div class="np-foot"><span id="noteSaved"></span><button id="noteDelete" class="link">Delete highlight</button></div>
+</div>
+
+<div id="tPop" class="floatpop" hidden>
+  <div class="tp-head"><label>Translate to <select id="trLang"></select></label><button class="icon sm" id="trClose" aria-label="Close"><svg><use href="#i-close"/></svg></button></div>
+  <div id="trSrc" class="np-quote"></div>
+  <div id="trOut" dir="auto"></div>
+  <div class="np-foot"><span id="trMeta"></span><button id="trCopy" class="link">Copy</button></div>
+</div>
+
+<dialog id="confirmDlg">
+  <p id="confirmMsg"></p>
+  <div class="dlg-actions"><button id="confirmCancel">Cancel</button><button id="confirmOk" class="danger"></button></div>
+</dialog>
+
+<div id="toast" role="status"></div>
+<div id="printRoot"></div>
+<div id="scratch" aria-hidden="true"></div>
+
+<script type="module" src="viewer.js"></script>
+</body>
+</html>

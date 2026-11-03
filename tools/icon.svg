@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a3d44"/>
+      <stop offset="1" stop-color="#1c1d21"/>
+    </linearGradient>
+    <clipPath id="L"><rect x="0" y="0" width="64" height="128"/></clipPath>
+    <clipPath id="R"><rect x="64" y="0" width="64" height="128"/></clipPath>
+    <path id="page" d="M37 14H75L95 34V110Q95 114 91 114H37Q33 114 33 110V18Q33 14 37 14Z"/>
+  </defs>
+
+  <rect width="128" height="128" rx="28" fill="url(#bg)"/>
+
+  <!-- light half -->
+  <g clip-path="url(#L)">
+    <use href="#page" fill="#f6f1e4"/>
+    <path d="M75 14L95 34H75Z" fill="#d9d2bf"/>
+    <rect x="43" y="52" width="42" height="6" rx="3" fill="#2a2b2f"/>
+    <rect x="43" y="64" width="42" height="6" rx="3" fill="#2a2b2f"/>
+    <rect x="43" y="76" width="42" height="6" rx="3" fill="#2a2b2f"/>
+    <rect x="43" y="88" width="26" height="6" rx="3" fill="#2a2b2f"/>
+  </g>
+
+  <!-- dark half -->
+  <g clip-path="url(#R)">
+    <use href="#page" fill="#24262b"/>
+    <path d="M75 14L95 34H75Z" fill="#3b3e45"/>
+    <rect x="43" y="52" width="42" height="6" rx="3" fill="#e9e4d6"/>
+    <rect x="43" y="64" width="42" height="6" rx="3" fill="#e9e4d6"/>
+    <rect x="43" y="76" width="42" height="6" rx="3" fill="#e9e4d6"/>
+    <rect x="43" y="88" width="26" height="6" rx="3" fill="#e9e4d6"/>
+  </g>
+
+  <!-- highlight -->
+  <rect x="40" y="62" width="36" height="10" rx="3" fill="#ffd400" opacity=".55"/>
+</svg>
