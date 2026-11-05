@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "PDF Theme Reader",
-  "version": "3.6.0",
+  "version": "4.0.0",
   "description": "A PDF reader with reading themes, highlights and comments, translation, search, thumbnails and page spreads, built on PDF.js.",
   "incognito": "split",
   "permissions": [

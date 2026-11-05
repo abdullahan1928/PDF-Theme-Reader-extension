@@ -1,6 +1,6 @@
 # PDF Theme Reader
 
-[![Version](https://img.shields.io/badge/version-3.6.0-blue.svg)](https://github.com/yourusername/pdf-theme-reader/releases)
+[![Version](https://img.shields.io/badge/version-4.0.0-blue.svg)](https://github.com/yourusername/pdf-theme-reader/releases)
 [![Manifest](https://img.shields.io/badge/manifest-v3-green.svg)](https://developer.chrome.com/docs/extensions/mv3/intro/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![PDF.js](https://img.shields.io/badge/PDF.js-6.4.299-red.svg)](https://github.com/mozilla/pdf.js)
